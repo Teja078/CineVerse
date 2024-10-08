@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CineVerse Contact</title>
+    <link rel="stylesheet" href="summapannenga.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <header>
+        <h1>Contact us</h1>
+        <nav>
+            <a href="#login">Login</a>
+            <a href="#gallery">Gallery</a>
+            <a href="#contact">Contact</a>
+            <a href="#moreinfo">More Info</a>
+        </nav>
+    </header>
+
+    <main>
+            <section id="contact" class="contact-section">
+                <h2>Get in Touch</h2>
+                <p>Have a question or feedback? We'd love to hear from you!</p>
+                <form>
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name"><br><br>
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email"><br><br>
+                    <label for="message">Message:</label>
+                    <textarea id="message" name="message"></textarea><br><br>
+                    <input type="submit" value="Send">
+                </form>
+            </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 CineVerse. All rights reserved.</p>
+    </footer>
+    <script>
+        $(document).ready(function() {
+            $('nav a').click(function(event) {
+                event.preventDefault();
+                const target = $(this).attr('href');
+        
+                if (target === '#login') {
+                    window.location.href = "loginpage.php";
+                } else if (target === '#gallery') {
+                    window.location.href = "gallery.html"; 
+                } else if (target === '#contact') {
+                    window.location.href = "contact.html"; 
+                } else if (target === '#moreinfo') {
+                    window.location.href = "moreinfo.html"; 
+                }
+            });
+        });
+    </script>
+</body>
+</html>
