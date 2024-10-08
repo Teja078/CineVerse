@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>More Info - CineVerse</title>
+    <link rel="stylesheet" href="contact.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <header>
+        <h1>CineVerse</h1>
+        <nav>
+            <a href="#login">Login</a>
+            <a href="#gallery">Gallery</a>
+            <a href="#contact">Contact</a>
+            <a href="#moreinfo">More Info</a>
+        </nav>
+    </header>
+
+    <main>
+        <section id="moreinfo" class="moreinfo-section">
+            <h2>About Us</h2>
+            <p>CineVerse is an online movie knowledge platform that aims to provide a seamless and enjoyable experience for movie lovers.</p>
+            <h2>Our Mission</h2>
+            <p>Our mission is to make movie surfing easy, convenient, and accessible to everyone.</p>
+            <h2>Our Team</h2>
+            <ul>
+                <li>Balaji D - Founder</li>
+                <li>Aditya - Founder</li>
+                <li>Bhargavi - Founder</li>
+                <li>Almas - Founder</li>
+            </ul>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 CineVerse. All rights reserved.</p>
+    </footer>
+
+    <script>
+        $(document).ready(function() {
+            $('nav a').click(function(event) {
+                event.preventDefault();
+                const target = $(this).attr('href');
+        
+                if (target === '#login') {
+                    window.location.href = "loginpage.php";
+                } else if (target === '#gallery') {
+                    window.location.href = "gallery.html"; 
+                } else if (target === '#contact') {
+                    window.location.href = "contact.html"; 
+                } else if (target === '#moreinfo') {
+                    window.location.href = "moreinfo.html"; 
+                }
+            });
+        });
+    </script>
+</body>
+</html>

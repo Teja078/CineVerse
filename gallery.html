@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Gallery</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #dc8181;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #333;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+        }
+
+        nav {
+            margin: 0;
+            padding: 0;
+        }
+
+        nav a {
+            color: white;
+            margin: 0 15px;
+            text-decoration: none;
+            font-size: 18px;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        .search-section {
+            margin: 20px;
+            text-align: center;
+        }
+
+        #searchBox {
+            width: 50%;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .movie-gallery {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .movie-item {
+            margin: 10px;
+            text-align: center;
+        }
+
+        .movie-item img {
+            width: 150px;
+            height: 200px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .movie-item button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px;
+            margin-top: 5px;
+            cursor: pointer;
+            border-radius: 5px;
+            display: block;
+            margin: 10px auto 0;
+        }
+
+
+        .movie-item button:hover {
+            background-color: #0056b3;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0,0,0);
+            background-color: rgba(0,0,0,0.4);
+            padding-top: 60px;
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 600px;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .rating {
+            color: gold;
+        }
+
+        .rating-star {
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Movie Gallery</h1>
+        <nav>
+            <a href="#home">Home</a>
+            <a href="#gallery">Gallery</a>
+            <a href="#contact">Contact</a>
+            <a href="#moreinfo">More Info</a>
+        </nav>
+    </header>
+
+    <section class="search-section">
+        <input type="text" id="searchBox" placeholder="Search for a movie...">
+    </section>
+
+    <section id="gallery" class="movie-gallery"></section>
+
+   
+    <div id="movieModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeModal">&times;</span>
+            <h2 id="movieTitle"></h2>
+            <p><strong>Release Date:</strong> <span id="releaseDate"></span></p>
+            <p><strong>Director:</strong> <span id="director"></span></p>
+            <p><strong>Main Artist:</strong> <span id="mainArtist"></span></p>
+            <p><strong>Ratings:</strong> <span id="ratings" class="rating"></span></p>
+            <p><strong>Details:</strong> <span id="movieDetails"></span></p>
+        </div>
+    </div>
+
+    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('nav a').click(function(event) {
+                event.preventDefault();
+                const target = $(this).attr('href');
+
+                if (target === '#home') {
+                    window.location.href = "homepage.html"; 
+                } else if (target === '#gallery') {
+                    window.location.href = "gallery.html"; 
+                } else if (target === '#contact') {
+                    window.location.href = "contact.html"; 
+                } else if (target === '#moreinfo') {
+                    window.location.href = "moreinfo.html"; 
+                }
+            });
+
+            const movies = [
+                { name: "Charlie", img: "charlie.jpg", releaseDate: "2016-07-06", director: "Someone", mainArtist : "Dulquer Salman", rating: 4.8, details: "A beautiful story which is leaded by Dulquer Salman." },
+                { name: "churuli", img: "churuli.jpg", releaseDate: "2008-07-18", director: "Someone",mainArtist :"unknown", rating: 4.9, details: "A famous movie." },
+                { name: "Ishq", img: "ishq.jpg", releaseDate: "2014-11-07", director: "Someone",mainArtist :"Shane Nigam", rating: 4.7, details: "Quitely not a love story. Won hearts of many people. Good music score." },
+                
+            ];
+
+            function displayMovies(filteredMovies) {
+                const gallery = $('#gallery');
+                gallery.empty(); 
+                filteredMovies.forEach(movie => {
+                    const movieItem = $(`
+                        <div class="movie-item">
+                            <img src="${movie.img}" alt="${movie.name}" onclick="openMovieDetails('${movie.name}')">
+                            <button onclick="openMovieDetails('${movie.name}')">Click here</button>
+                        </div>
+
+                    `);
+                    gallery.append(movieItem);
+                });
+            }
+
+            window.openMovieDetails = function(movieName) {
+                const movie = movies.find(m => m.name === movieName);
+                if (movie) {
+                    $('#movieTitle').text(movie.name);
+                    $('#releaseDate').text(movie.releaseDate);
+                    $('#director').text(movie.director);
+                    $('#mainArtist').text(movie.mainArtist);
+                    $('#ratings').html('&#9733;'.repeat(Math.round(movie.rating)) + '&#9734;'.repeat(5 - Math.round(movie.rating)));
+                    $('#movieDetails').text(movie.details);
+                    $('#movieModal').show();
+                } else {
+                    alert("Movie details not found.");
+                }
+            };
+
+            $('#closeModal').click(function() {
+                $('#movieModal').hide();
+            });
+
+            $('#searchBox').on('input', function() {
+                const searchTerm = $(this).val().toLowerCase();
+                const filteredMovies = movies.filter(movie => movie.name.toLowerCase().includes(searchTerm));
+                displayMovies(filteredMovies);
+            });
+
+            displayMovies(movies);
+        });
+    </script>
+</body>
+</html>
